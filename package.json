@@ -6,7 +6,13 @@
 	"author": "Francisco Messina",
 	"license": "MIT",
 	"private": false,
+	"scripts": {
+		"start": "node ./src/app.js",
+		"dev": "nodemon ./src/app.js"
+	},
 	"dependencies": {
-		"express": "^4.17.1"
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-session": "^1.17.2"
 	}
 }
