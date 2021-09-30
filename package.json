@@ -1,0 +1,12 @@
+{
+	"name": "challenge-full-stack-alkemy",
+	"version": "1.0.0",
+	"description": "Challenge para el ingreso a la aceleración de alkemy",
+	"main": "app.js",
+	"author": "Francisco Messina",
+	"license": "MIT",
+	"private": false,
+	"dependencies": {
+		"express": "^4.17.1"
+	}
+}
