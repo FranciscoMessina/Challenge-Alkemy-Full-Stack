@@ -1,10 +1,10 @@
 {
 	"development": {
-		"username": "postgres",
-		"password": "15437igoo2",
-		"database": "postgres",
+		"username": "root",
+		"password": "",
+		"database": "alkemy",
 		"host": "127.0.0.1",
-		"dialect": "postgres"
+		"dialect": "mysql"
 	},
 	"test": {
 		"username": "root",

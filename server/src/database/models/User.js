@@ -16,5 +16,9 @@ module.exports = (sequelize, DataTypes) => {
 	};
 	const User = sequelize.define(alias, cols, config);
 
+	User.associate = models => {
+		User.hasMany(models.Operation);
+	};
+
 	return User;
 };
