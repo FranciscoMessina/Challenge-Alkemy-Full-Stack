@@ -9,8 +9,4 @@ router
 	.put(controller.editOperation)
 	.delete(controller.deleteOperation);
 
-router.post("/register", controller.registerUser);
-router.post("/login", controller.loginUser);
-router.post("/auth", controller.checkAuth);
-
 module.exports = router;

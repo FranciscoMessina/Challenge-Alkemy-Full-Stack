@@ -2,24 +2,9 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const models = require("./database/models");
-const session = require("express-session");
 
 app.use(cors());
 
-app.use(
-	session({
-		name: "qid",
-		saveUninitialized: false,
-		secret: "qwertyuiopasdfghjkl",
-		resave: false,
-		cookie: {
-			maxAge: 1000 * 60 * 5,
-			httpOnly: true,
-			secure: false,
-			sameSite: "lax",
-		},
-	})
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -33,3 +18,11 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`Servidor corriendo en el puerto ${port}`);
 });
+
+// Esto crea la tabla en la base de datos. Con la informacion en ./database/models/Operation.js
+
+// models.sequelize.sync().then(
+// 	app.listen(port, () => {
+// 		console.log(`Servidor corriendo en el puerto ${port}`);
+// 	})
+// );

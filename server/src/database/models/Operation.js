@@ -23,9 +23,5 @@ module.exports = (sequelize, DataTypes) => {
 	};
 	const Operation = sequelize.define(alias, cols, config);
 
-	Operation.associate = models => {
-		Operation.belongsTo(models.User);
-	};
-
 	return Operation;
 };
