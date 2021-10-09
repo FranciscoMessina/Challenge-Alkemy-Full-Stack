@@ -27,7 +27,7 @@ function OperationModal({ modal, setModal }) {
         amount = -Math.abs(values.amount);
       }
 
-      const response = await fetch('http://localhost:3000/api/operations', {
+      await fetch('http://localhost:3000/api/operations', {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json',
@@ -41,7 +41,7 @@ function OperationModal({ modal, setModal }) {
         }),
       }).then((res) => res.json());
 
-      console.log(response);
+      setModal('');
     };
   } else {
     onSubmit = async (values) => {
@@ -65,6 +65,7 @@ function OperationModal({ modal, setModal }) {
           type: values.type,
         }),
       }).then((res) => res.json());
+      setModal('');
     };
   }
 

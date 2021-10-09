@@ -19,7 +19,7 @@ app.listen(port, () => {
 	console.log(`Servidor corriendo en el puerto ${port}`);
 });
 
-// Esto crea la tabla en la base de datos. Con la informacion en ./database/models/Operation.js
+// Esto crea la tabla en la base de datos(./database/config/config.json). Con la informacion en ./database/models/Operation.js
 
 // models.sequelize.sync().then(
 // 	app.listen(port, () => {
