@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require("../controllers/controller");
 
 router
-	.route("/")
+	.route("/operations")
 	.post(controller.addOperation)
 	.get(controller.getOperations)
 	.put(controller.editOperation)

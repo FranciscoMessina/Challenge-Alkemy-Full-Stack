@@ -1,6 +1,8 @@
 import Dropdown from './Dropdown';
 
-function Operation({ operation, setModal }) {
+function Operation({ operation, setModal, reload }) {
+  const date = new Date(operation.date).toLocaleDateString();
+
   return (
     <div
       className={`flex rounded justify-between items-center p-1 px-2  ${
@@ -8,15 +10,13 @@ function Operation({ operation, setModal }) {
       }`}>
       <div className="flex flex-col">
         <span>{operation.concept.toUpperCase()}</span>
-        <span>{operation.date}</span>
+        <span>{date}</span>
       </div>
       <span className="text-center">
-        {operation.type === 'income'
-          ? `+ $${operation.amount}`
-          : `- $${operation.amount}`}
+        {operation.type === 'income' ? `$ ${operation.amount}` : `$ ${operation.amount}`}
       </span>
       <div>
-        <Dropdown operation={operation} setModal={setModal} />
+        <Dropdown operation={operation} setModal={setModal} reload={reload} />
       </div>
     </div>
   );

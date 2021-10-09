@@ -3,7 +3,21 @@ import { Fragment } from 'react';
 
 import { Delete, EditRounded, MenuOpen } from '@mui/icons-material';
 
-export default function Dropdown({ setModal }) {
+export default function Dropdown({ setModal, operation }) {
+  const deleteOperation = async (id) => {
+    const response = await fetch('http://localhost:3000/api/operations', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    }).then((res) => res.json());
+
+    console.log(response);
+  };
+
   return (
     <div className="text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -31,10 +45,11 @@ export default function Dropdown({ setModal }) {
                     onClick={() =>
                       setModal({
                         modal: 'edit',
-                        concept: 'Ponchos',
-                        amount: 500,
-                        date: '20*20*1050',
-                        type: 'outcome',
+                        id: operation.id,
+                        concept: operation.concept,
+                        amount: operation.amount,
+                        date: operation.date,
+                        type: operation.type,
                       })
                     }
                     className={`${
@@ -48,6 +63,7 @@ export default function Dropdown({ setModal }) {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                    onClick={() => deleteOperation(operation.id)}
                     className={`${
                       active ? 'bg-red-500 ' : 'text-gray-900'
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm`}>

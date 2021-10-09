@@ -17,11 +17,23 @@ module.exports = {
 		});
 	},
 	getOperations: async (req, res) => {
-		const operations = await db.Operation.findAll();
+		const operations = await db.Operation.findAll({
+			limit: 10,
+			order: [["createdAt", "DESC"]],
+		});
+
+		const balance = await db.Operation.findAll({
+			attributes: ["amount"],
+		}).then(values =>
+			values.reduce((acc, value) => {
+				return acc + value.toJSON().amount;
+			}, 0)
+		);
 
 		res.json({
 			type: "Get Operations",
-			operations,
+			balance,
+			data: operations,
 		});
 	},
 	editOperation: (req, res) => {
@@ -29,9 +41,14 @@ module.exports = {
 			type: "Edit Operation",
 		});
 	},
-	deleteOperation: (req, res) => {
+	deleteOperation: async (req, res) => {
+		const { id } = req.body;
+
+		const op = await db.Operation.destroy({ where: { id } });
+
 		res.json({
-			type: "Delete Operation",
+			id,
+			op,
 		});
 	},
 };
