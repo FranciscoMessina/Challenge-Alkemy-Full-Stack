@@ -20,9 +20,25 @@ function OperationModal({ modal, setModal }) {
   if (modal.modal === 'edit') {
     onSubmit = async (values) => {
       console.log('edit', values);
+      let amount;
+      if (values.type === 'income') {
+        amount = values.amount;
+      } else {
+        amount = -Math.abs(values.amount);
+      }
 
       const response = await fetch('http://localhost:3000/api/operations', {
         method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: modal.id,
+          concept: values.concept,
+          amount,
+          date: values.date,
+          type: modal.type,
+        }),
       }).then((res) => res.json());
 
       console.log(response);
@@ -114,7 +130,7 @@ function OperationModal({ modal, setModal }) {
               </div>
               <div>
                 <label htmlFor="email" className="block italic mb-2">
-                  Tipo:
+                  Fecha:
                 </label>
                 <Field
                   type="date"

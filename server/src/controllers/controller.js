@@ -36,9 +36,18 @@ module.exports = {
 			data: operations,
 		});
 	},
-	editOperation: (req, res) => {
+	editOperation: async (req, res) => {
+		const { id, concept, amount, date } = req.body;
+
+		const operation = await db.Operation.update(
+			{ concept, amount, date },
+			{ where: { id } }
+		);
+		console.log(operation);
+
 		res.json({
 			type: "Edit Operation",
+			operation,
 		});
 	},
 	deleteOperation: async (req, res) => {
