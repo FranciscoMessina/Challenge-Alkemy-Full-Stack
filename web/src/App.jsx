@@ -1,41 +1,72 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import { CircularProgress } from '@mui/material';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
+axios.defaults.withCredentials = true;
 
 function App() {
   const [operations, setOperations] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [auth, setAuth] = useState();
+
+  const getOperations = async () => {
+    const response = await axios.get('http://localhost:3000/api/operations');
+
+    setOperations(response.data);
+  };
+
+  const checkAuth = async () => {
+    const response = await axios.get('http://localhost:3000/api/login');
+
+    setAuth(response.data.user);
+
+    if (response.data.logged) {
+      getOperations();
+    }
+  };
 
   useEffect(() => {
-    const getOperations = async () => {
-      const response = await fetch('http://localhost:3000/api/operations', {
-        method: 'GET',
-      }).then((res) => res.json());
-
-      setOperations(response);
-      setLoading(false);
-    };
-
-    getOperations();
+    checkAuth();
   }, []);
 
-  if (loading) {
+  if (!auth) {
     return (
-      <div className="flex h-screen w-full justify-center items-center">
-        <CircularProgress />
-      </div>
+      <BrowserRouter>
+        <div className="pt-20">
+          <Navbar auth={auth} setAuth={setAuth} updateOperations={getOperations} />
+
+          <Switch>
+            <Route path="/" exact>
+              <Login setAuth={setAuth} />
+            </Route>
+            <Route path="/login">
+              <Login setAuth={setAuth} />
+            </Route>
+            <Route path="/register" exact>
+              <Register setAuth={setAuth} />
+            </Route>
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 
   return (
     <BrowserRouter>
       <div className="pt-20">
-        <Navbar />
+        <Navbar auth={auth} setAuth={setAuth} updateOperations={getOperations} />
+
         <Switch>
           <Route path="/" exact>
-            <Home operations={operations.data} balance={operations.balance} />
+            <Home
+              operations={operations.data}
+              balance={operations.balance}
+              auth={auth}
+              updateOperations={getOperations}
+            />
           </Route>
         </Switch>
       </div>

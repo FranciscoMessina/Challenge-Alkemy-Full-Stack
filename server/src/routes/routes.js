@@ -6,7 +6,12 @@ router
 	.route("/operations")
 	.post(controller.addOperation)
 	.get(controller.getOperations)
-	.put(controller.editOperation)
+	.patch(controller.editOperation)
 	.delete(controller.deleteOperation);
+
+router.get("/login", controller.checkAuth);
+router.post("/login", controller.login);
+router.post("/register", controller.register);
+router.post("/logout", controller.logout);
 
 module.exports = router;

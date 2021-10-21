@@ -1,19 +1,17 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
-import { Delete, EditRounded, MenuOpen } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import axios from 'axios';
 
-export default function Dropdown({ setModal, operation, updateOperations }) {
-  const deleteOperation = async (id) => {
-    const response = await axios.delete('http://localhost:3000/api/operations', {
-      data: {
-        id,
-      },
-    });
+export default function LogoutBtn({ setAuth, updateOperations }) {
+  const logout = async () => {
+    const response = await axios.post('http://localhost:3000/api/logout');
 
     console.log(response);
-    await updateOperations();
+
+    setAuth();
+    updateOperations();
   };
 
   return (
@@ -21,8 +19,8 @@ export default function Dropdown({ setModal, operation, updateOperations }) {
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-center w-full px-2 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-0 hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <MenuOpen
-              className="w-5 h-5 text-black hover:text-violet-100"
+            <Logout
+              className="w-5 h-5 text-white hover:text-violet-100"
               aria-hidden="true"
             />
           </Menu.Button>
@@ -40,33 +38,12 @@ export default function Dropdown({ setModal, operation, updateOperations }) {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() =>
-                      setModal({
-                        modal: 'edit',
-                        id: operation.id,
-                        concept: operation.concept,
-                        amount: operation.amount,
-                        date: operation.date,
-                        type: operation.type,
-                      })
-                    }
-                    className={`${
-                      active ? 'bg-yellow-500 ' : 'text-gray-900'
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}>
-                    <EditRounded className="mr-2" aria-hidden="true" />
-                    Editar
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => deleteOperation(operation.id)}
+                    onClick={logout}
                     className={`${
                       active ? 'bg-red-500 ' : 'text-gray-900'
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm`}>
-                    <Delete className="w-5 h-5 mr-2" aria-hidden="true" />
-                    Eliminar
+                    <Logout className="mr-2" aria-hidden="true" />
+                    Desconectate
                   </button>
                 )}
               </Menu.Item>

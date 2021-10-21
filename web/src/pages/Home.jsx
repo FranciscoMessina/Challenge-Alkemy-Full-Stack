@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Operation from '../components/Operation';
 import OperationModal from '../components/OperationModal';
 
-export default function Home({ operations, balance }) {
+export default function Home({ operations, balance, auth, updateOperations }) {
   const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    updateOperations();
+  }, []);
 
   return (
     <>
       <div className="w-full flex flex-col items-center gap-4 max-w-7xl mx-auto">
+        <div className="mx-auto w-full text-center">Bienvenido: {auth.email}</div>
+
         <div className="flex flex-col md:flex-row justify-between w-3/4 max-w-6xl gap-2">
           <div
             onClick={() => setModal({ type: 'add' })}
@@ -31,15 +37,31 @@ export default function Home({ operations, balance }) {
             <h2>OPERACIONES</h2>
           </div>
           <div className="flex flex-col gap-2">
-            {operations.length > 0
+            <div className={`grid rounded grid-cols-3 p-1 px-2 `}>
+              <div className="flex flex-col text-left">
+                <span>Concepto y fecha</span>
+              </div>
+              <span className="text-center "> Monto</span>
+            </div>
+            {operations && operations.length > 0
               ? operations.map((op) => (
-                  <Operation operation={op} setModal={setModal} key={op.id} />
+                  <Operation
+                    operation={op}
+                    setModal={setModal}
+                    key={op.id}
+                    updateOperations={updateOperations}
+                  />
                 ))
               : 'NO HAY OPERACIONES REGISTRADAS'}
           </div>
         </div>
       </div>
-      <OperationModal modal={modal} setModal={setModal} />
+
+      <OperationModal
+        modal={modal}
+        setModal={setModal}
+        updateOperations={updateOperations}
+      />
     </>
   );
 }

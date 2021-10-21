@@ -2,8 +2,9 @@ import { Close } from '@mui/icons-material';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Button from './Button';
 import * as Yup from 'yup';
+import axios from 'axios';
 
-function OperationModal({ modal, setModal }) {
+function OperationModal({ modal, setModal, updateOperations }) {
   let date;
   if (modal.date) {
     date = new Date(modal.date).toISOString().split('T')[0];
@@ -27,25 +28,20 @@ function OperationModal({ modal, setModal }) {
         amount = -Math.abs(values.amount);
       }
 
-      await fetch('http://localhost:3000/api/operations', {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: modal.id,
-          concept: values.concept,
-          amount,
-          date: values.date,
-          type: modal.type,
-        }),
-      }).then((res) => res.json());
+      await axios.patch('http://localhost:3000/api/operations', {
+        id: modal.id,
+        concept: values.concept,
+        amount,
+        date: values.date,
+        type: modal.type,
+      });
+
+      await updateOperations();
 
       setModal('');
     };
   } else {
     onSubmit = async (values) => {
-      console.log('add', values);
       let amount;
       if (values.type === 'income') {
         amount = values.amount;
@@ -53,18 +49,15 @@ function OperationModal({ modal, setModal }) {
         amount = -Math.abs(values.amount);
       }
 
-      await fetch('http://localhost:3000/api/operations', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          concept: values.concept,
-          amount,
-          date: values.date,
-          type: values.type,
-        }),
-      }).then((res) => res.json());
+      await axios.post('http://localhost:3000/api/operations', {
+        concept: values.concept,
+        amount,
+        date: values.date,
+        type: values.type,
+      });
+
+      updateOperations();
+
       setModal('');
     };
   }
