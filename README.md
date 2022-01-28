@@ -4,9 +4,6 @@ Challenge realizado para el ingreso a la aceleración alkemy Full Stack.
 
 TODO:
 
-AGREGAR AUTENTICACION DE USUARIOS, Y MODIFICAR PARA QUE LAS OPERACIONES ESTEN SEPARADAS POR USUARIO
-
-- Al agregar, modificar o eliminar una operacion la pagina no muestra la informacion actualizada sin refrescarla. 
 
 FIX:
 
